@@ -8,6 +8,8 @@ if which unzip; then
 	wget -O $filename "https://github.com/nimusis/kwon_env/archive/master.zip"
 	unzip -j $filename -d $kwonEnvDir
 	rm -f $filename
+	rm -f $kwonEnvDir/install.sh
+	rm -f $kwonEnvDir/README.md
 else
 	mkdir $kwonEnvDir
 	curl -fLo $kwonEnvDir/bashrc https://raw.githubusercontent.com/nimusis/kwon_env/master/bashrc
