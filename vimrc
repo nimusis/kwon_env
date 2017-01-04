@@ -1,3 +1,5 @@
+set runtimepath=~/.kwon_env/vim,$VIMRUNTIME
+
 call plug#begin('~/.kwon_env/vim/plugged')
 
 " Make sure you use single quotes
@@ -155,14 +157,14 @@ set nowrapscan "검색할 때 문서의 끝에서 다시 처음으로 돌아가�
 set ruler       "화면 우측 하단에 현재 커서의 위치 표시
 
 " UTF-8, euc-kr 한글문서 그냥 열기
-if v:lang =~ "^ko"
-    set encoding=cp949
-    set fileencodings=utf-8,cp949
-    set guifontset=-*-*-medium-r-normal--16-*-*-*-*-*-*-*
-else
-    set encoding=utf-8
-    set fileencodings=utf-8,cp949
-endif
+"if v:lang =~ "^ko"
+"    set encoding=cp949
+"    set fileencodings=utf-8,cp949
+"    set guifontset=-*-*-medium-r-normal--16-*-*-*-*-*-*-*
+"else
+"    set encoding=utf-8
+"    set fileencodings=utf-8,cp949
+"endif
 
 "=====================================================================
 "# GUI 설정
