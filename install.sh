@@ -6,14 +6,14 @@ bashfilename=$HOME/".bashrc"
 
 if which unzip; then
 	wget -O $filename "https://github.com/nimusis/kwon_env/archive/master.zip"
-	unzip $filename -d $kwonEnvDir
+	unzip -j $filename -d $kwonEnvDir
 	rm -f $filename
 	rm -f $kwonEnvDir/install.sh
 	rm -f $kwonEnvDir/README.md
 else
 	mkdir $kwonEnvDir
 	curl -fLo $kwonEnvDir/bashrc https://raw.githubusercontent.com/nimusis/kwon_env/master/bashrc
-	curl -fLo $kwonEnvDir/dircolors/dircolors.custom --create-dirs https://raw.githubusercontent.com/nimusis/kwon_env/master/dircolors/dircolors.custom
+	curl -fLo $kwonEnvDir/dircolors.custom https://raw.githubusercontent.com/nimusis/kwon_env/master/dircolors.custom
 	curl -fLo $kwonEnvDir/vimrc https://raw.githubusercontent.com/nimusis/kwon_env/master/vimrc
 fi
 

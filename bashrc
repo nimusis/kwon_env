@@ -38,7 +38,7 @@ C_BG_LIGHTGRAY="\[\033[47m\]"
 
 #export PS1="\u@\h:\w$ "
 export PS1="$C_GREEN\u$C_DEFAULT@$C_CYAN\h:$C_YELLOW\w$C_DEFAULT$ "
-eval `dircolors ~/.kwon_env/dircolors/dircolors.custom -b`
+eval `dircolors ~/.kwon_env/dircolors.custom -b`
 alias ls='ls --color=auto --show-control-chars'
 alias rm='rm -i'
 alias cp='cp -i'
