@@ -268,7 +268,7 @@ highlight ShowMarksHLm ctermfg=white ctermbg=blue
 "=====================================================================
 "# Plugin TAGBAR 설정
 "=====================================================================
-let g:tagbar_left = 1 " 0이면 오른쪽, 1이면 왼쪽에 출력
+let g:tagbar_left = 0 " 0이면 오른쪽, 1이면 왼쪽에 출력
 let g:tagbar_width = 40 "기본폭은 40입니다. 모니터가 작으면 줄여야 겠죠 ㅠ
 let g:tagbar_autoclose = 0 "선택하면 자동으로 닫히게 하려면 1을 할당해 주세요
 let g:tagbar_autofocus = 1 "커서가 이동하면 자동으로 선언된 위치로 갑니다 (?)
@@ -304,6 +304,21 @@ let g:NERDTreeCaseSensitiveSort=1
 "=====================================================================
 "# Plugin YouCompleteMe 설정
 "=====================================================================
+let g:ycm_global_ycm_extra_conf = '~/.kwon_env/vim/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 0 
+"To avoid conflict snippets
+let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+let g:ycm_autoclose_preview_window_after_completion = 1 
+let g:ycm_warning_symbol = '>*'
+
+nnoremap <leader>g :YcmCompleter GoTo<CR>
+nnoremap <leader>gg :YcmCompleter GoToImprecise<CR>
+nnoremap <leader>d :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>t :YcmCompleter GetType<CR>
+nnoremap <leader>p :YcmCompleter GetParent<CR>
+
+let g:ycm_auto_trigger = 0    " 기본값은 1입니다. '.'이나 '->'을 받으면 자동으로 목록들을 출력해주죠.
 let g:ycm_collect_identifiers_from_tags_files = 1 " tags 파일을 사용합니다. 성능상 이익이 있는걸로 알고 있습니다. 
 let g:ycm_filetype_whitelist = { '*': 1 } " 화이트 리스트를 설정합니다. 
 let g:ycm_filetype_blacklist = { 'tagbar' : 1, 'qf' : 1, 'notes' : 1, } " 블랙 리스트를 설정합니다.
