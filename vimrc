@@ -3,37 +3,34 @@ set runtimepath=~/.kwon_env/vim,$VIMRUNTIME
 call plug#begin('~/.kwon_env/vim/plugged')
 
 " Make sure you use single quotes
-"Plug 'junegunn/seoul256.vim'
-
-" On-demand loading
-"Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " SYNTAX HIGHLIGHT
 Plug 'justinmk/vim-syntax-extra'
-Plug 'vim-scripts/ShowMarks'
+Plug 'exvim/ex-showmarks'
+"Plug 'vim-scripts/ShowMarks'
 
 " COLOR SCHEME
-"Plug 'altercation/vim-colors-solarized'
-"Plug 'tomasr/molokai'
-"Plug 'nanotech/jellybeans.vim'
-"Plug 'chriskempson/base16-vim'
-"Plug 'sjl/badwolf'
-"Plug 'morhetz/gruvbox'
 Plug 'nimusis/Tomorrow-Night-Eighties.vim'
 
 " FILE FINDER
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'dyng/ctrlsf.vim'
-
+Plug 'ctrlpvim/ctrlp.vim'
+"
 " INTERFACE
 Plug 'majutsushi/tagbar'
-Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'mhinz/vim-startify'
+
+" GIT
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 
 " OTHER FEATURES
 Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-expand-region'
+Plug 'farmergreg/vim-lastplace'
 
 " DEV
 Plug 'skammer/vim-css-color'
@@ -51,6 +48,10 @@ Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 
 call plug#end()
 
+syntax on
+filetype plugin indent on
+
+let g:plug_timeout = 10000
 
 "=====================================================================
 "# 이것 저것 설정
@@ -61,100 +62,6 @@ set bs=2        " allow backspacing over everything in insert mode
 set viminfo='20,\"50    " read/write a .viminfo file, don't store more
             " than 50 lines of registers
 set history=50      " keep 50 lines of command line history
-
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
-
-" Make p in Visual mode replace the selected text with the "" register.
-vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
-
-" Only do this part when compiled with support for autocommands.
-if has("autocmd")
-
- " In text files, always limit the width of text to 78 characters
- autocmd BufRead *.txt set tw=78
-
- augroup cprog
-  " Remove all cprog autocommands
-  au!
-
-  " When starting to edit a file:
-  "   For C and C++ files set formatting of comments and set C-indenting on.
-  "   For other files switch it off.
-  "   Don't change the order, it's important that the line with * comes first.
-  autocmd FileType *      set formatoptions=tcql nocindent comments&
-  autocmd FileType c,cpp  set formatoptions=croql cindent comments=sr:/*,mb:*,el:*/
-  "autocmd FileType c,cpp  set formatoptions=croql cindent comments=sr:/*,mb:*,el:*/,://
- augroup END
-
- augroup gzip
-  " Remove all gzip autocommands
-  au!
-
-  " Enable editing of gzipped files
-  " set binary mode before reading the file
-  autocmd BufReadPre,FileReadPre    *.gz,*.bz2 set bin
-  autocmd BufReadPost,FileReadPost  *.gz call GZIP_read("gunzip")
-  autocmd BufReadPost,FileReadPost  *.bz2 call GZIP_read("bunzip2")
-  autocmd BufWritePost,FileWritePost    *.gz call GZIP_write("gzip")
-  autocmd BufWritePost,FileWritePost    *.bz2 call GZIP_write("bzip2")
-  autocmd FileAppendPre         *.gz call GZIP_appre("gunzip")
-  autocmd FileAppendPre         *.bz2 call GZIP_appre("bunzip2")
-  autocmd FileAppendPost        *.gz call GZIP_write("gzip")
-  autocmd FileAppendPost        *.bz2 call GZIP_write("bzip2")
-
-  " After reading compressed file: Uncompress text in buffer with "cmd"
-  fun! GZIP_read(cmd)
-    " set 'cmdheight' to two, to avoid the hit-return prompt
-    let ch_save = &ch
-    set ch=3
-    " when filtering the whole buffer, it will become empty
-    let empty = line("'[") == 1 && line("']") == line("$")
-    let tmp = tempname()
-    let tmpe = tmp . "." . expand("<afile>:e")
-    " write the just read lines to a temp file "'[,']w tmp.gz"
-    execute "'[,']w " . tmpe
-    " uncompress the temp file "!gunzip tmp.gz"
-    execute "!" . a:cmd . " " . tmpe
-    " delete the compressed lines
-    '[,']d
-    " read in the uncompressed lines "'[-1r tmp"
-    set nobin
-    execute "'[-1r " . tmp
-    " if buffer became empty, delete trailing blank line
-    if empty
-      normal Gdd''
-    endif
-    " delete the temp file
-    call delete(tmp)
-    let &ch = ch_save
-    " When uncompressed the whole buffer, do autocommands
-    if empty
-      execute ":doautocmd BufReadPost " . expand("%:r")
-    endif
-  endfun
-
-  " After writing compressed file: Compress written file with "cmd"
-  fun! GZIP_write(cmd)
-    if rename(expand("<afile>"), expand("<afile>:r")) == 0
-      execute "!" . a:cmd . " <afile>:r"
-    endif
-  endfun
-
-  " Before appending to compressed file: Uncompress file with "cmd"
-  fun! GZIP_appre(cmd)
-    execute "!" . a:cmd . " <afile>"
-    call rename(expand("<afile>:r"), expand("<afile>"))
-  endfun
-
- augroup END
-
- " When editing a file, always jump to the last cursor position.
- " This must be after the uncompress commands.
-  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
-
-endif " has("autocmd")
-
 
 "=====================================================================
 "# 시스템 기본 설정
@@ -257,21 +164,33 @@ nnoremap <F7> :NERDTreeFind<CR>
 nnoremap <F8> :NERDTreeToggle<CR>
 
 "=====================================================================
-"# Plugin lightline 설정
-"=====================================================================
-"let g:lightline = { 'colorscheme': 'wombat', 'component': { 'readonly': '%{&readonly?"⭤":""}', } }
-
-"=====================================================================
 "# Plugin ShowMarks 설정
 "=====================================================================
-"let g:showmarks_ignore_type= "hprmq"
+let g:showmarks_enable = 1
 let g:showmarks_include= "abcdefhijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+let g:showmarks_ignore_type= "hprmq"
+let showmarks_hlline_lower = 1
+let showmarks_hlline_upper = 0
 
 "l : lowcase, u : upcase, o : other, m: multiple
-highlight ShowMarksHLl ctermfg=white ctermbg=blue
-highlight ShowMarksHLu ctermfg=white ctermbg=blue
-highlight ShowMarksHLo ctermfg=white ctermbg=blue
-highlight ShowMarksHLm ctermfg=white ctermbg=blue
+"highlight ShowMarksHLl ctermfg=white ctermbg=blue
+"highlight ShowMarksHLu ctermfg=white ctermbg=blue
+"highlight ShowMarksHLo ctermfg=white ctermbg=blue
+"highlight ShowMarksHLm ctermfg=white ctermbg=blue
+
+" highlights 
+" For marks a-z
+hi clear ShowMarksHLl
+hi ShowMarksHLl term=bold cterm=none ctermbg=LightBlue ctermfg=DarkBlue gui=none guibg=LightBlue
+" For marks A-Z
+hi clear ShowMarksHLu
+hi ShowMarksHLu term=bold cterm=bold ctermbg=LightRed ctermfg=DarkRed gui=bold guibg=LightRed guifg=DarkRed
+" For all other marks
+hi clear ShowMarksHLo
+hi ShowMarksHLo term=bold cterm=bold ctermbg=LightYellow ctermfg=DarkYellow gui=bold guibg=LightYellow guifg=DarkYellow
+" For multiple marks on the same line.
+hi clear ShowMarksHLm
+hi ShowMarksHLm term=bold cterm=none ctermbg=LightBlue gui=none guibg=SlateBlue
 
 "=====================================================================
 "# Plugin TAGBAR 설정
@@ -312,21 +231,84 @@ let g:NERDTreeCaseSensitiveSort=1
 "=====================================================================
 "# Plugin YouCompleteMe 설정
 "=====================================================================
-let g:ycm_global_ycm_extra_conf = '~/.kwon_env/vim/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf = 0 
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_min_num_of_chars_for_completion = 2
+let g:ycm_auto_trigger = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_confirm_extra_conf = 0
+"let g:ycm_global_ycm_extra_conf = '~/.kwon_env/vim/.ycm_extra_conf.py'
+"let g:ycm_confirm_extra_conf = 0
 "To avoid conflict snippets
-let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
-let g:ycm_autoclose_preview_window_after_completion = 1 
-let g:ycm_warning_symbol = '>*'
+"let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+"let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+"let g:ycm_autoclose_preview_window_after_completion = 1
+"let g:ycm_warning_symbol = '>*'
 
-nnoremap <leader>g :YcmCompleter GoTo<CR>
-nnoremap <leader>gg :YcmCompleter GoToImprecise<CR>
-nnoremap <leader>d :YcmCompleter GoToDeclaration<CR>
-nnoremap <leader>t :YcmCompleter GetType<CR>
-nnoremap <leader>p :YcmCompleter GetParent<CR>
+"nnoremap <leader>g :YcmCompleter GoTo<CR>
+"nnoremap <leader>gg :YcmCompleter GoToImprecise<CR>
+"nnoremap <leader>d :YcmCompleter GoToDeclaration<CR>
+"nnoremap <leader>t :YcmCompleter GetType<CR>
+"nnoremap <leader>p :YcmCompleter GetParent<CR>
 
-let g:ycm_auto_trigger = 0    " 기본값은 1입니다. '.'이나 '->'을 받으면 자동으로 목록들을 출력해주죠.
-let g:ycm_collect_identifiers_from_tags_files = 1 " tags 파일을 사용합니다. 성능상 이익이 있는걸로 알고 있습니다. 
-let g:ycm_filetype_whitelist = { '*': 1 } " 화이트 리스트를 설정합니다. 
-let g:ycm_filetype_blacklist = { 'tagbar' : 1, 'qf' : 1, 'notes' : 1, } " 블랙 리스트를 설정합니다.
+"let g:ycm_auto_trigger = 0    " 기본값은 1입니다. '.'이나 '->'을 받으면 자동으로 목록들을 출력해주죠.
+"let g:ycm_collect_identifiers_from_tags_files = 1 " tags 파일을 사용합니다. 성능상 이익이 있는걸로 알고 있습니다. 
+"let g:ycm_filetype_whitelist = { '*': 1 } " 화이트 리스트를 설정합니다. 
+"let g:ycm_filetype_blacklist = { 'tagbar' : 1, 'qf' : 1, 'notes' : 1, } " 블랙 리스트를 설정합니다.
+
+"=====================================================================
+"# Plugin ctrlp 설정
+"=====================================================================
+"파일 인덱싱 속도를 느리게 하는 디렉토리 ignore
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|public$\|log$\|tmp$\|vendor$',
+  \ 'file': '\v\.(exe|so|dll|a|o|class)$'
+\ }
+
+"=====================================================================
+"# Plugin vim-airline 설정
+"=====================================================================
+let g:airline_highlighting_cache = 1
+let g:airline_powerline_fonts = 1
+let g:airline_exclude_preview = 1
+let g:bufferline_echo = 0
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#syntastic#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#tab_min_count = 2
+let g:airline#extensions#tabline#buffer_min_count = 2
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+
+"let g:airline_theme='tomorrow'
+let g:airline_theme='powerlineish'
+let g:airline_theme='dark'
+
+let g:airline_enable_branch = 1
+let g:airline_enable_syntastic = 1
+
+set ttimeoutlen=50
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+" unicode symbols
+let g:airline_left_sep = '»' 
+let g:airline_left_sep = '▶' 
+let g:airline_right_sep = '«' 
+let g:airline_right_sep = '◀' 
+let g:airline_symbols.linenr = '␊' 
+let g:airline_symbols.linenr = '␤' 
+let g:airline_symbols.linenr = '¶' 
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.maxlinenr = '㏑'
+let g:airline_symbols.branch = '⎇' 
+let g:airline_symbols.paste = 'ρ' 
+let g:airline_symbols.paste = 'Þ' 
+let g:airline_symbols.paste = '∥' 
+let g:airline_symbols.spell = 'Ꞩ'
+let g:airline_symbols.notexists = '∄'
+let g:airline_symbols.whitespace = 'Ξ' 
+
