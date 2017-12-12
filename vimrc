@@ -19,8 +19,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 "
 " INTERFACE
 Plug 'majutsushi/tagbar'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-startify'
 
 " GIT
@@ -164,6 +163,29 @@ nnoremap <F7> :NERDTreeFind<CR>
 nnoremap <F8> :NERDTreeToggle<CR>
 
 "=====================================================================
+"# Plugin lightline 설정
+"=====================================================================
+"let g:lightline = { 'colorscheme': 'wombat', 'component': { 'readonly': '%{&readonly?"⭤":""}', } }
+let g:lightline = {
+\   'colorscheme': 'one',
+\   'active': {
+\     'left':[ [ 'mode', 'paste' ],
+\              [ 'gitbranch', 'readonly', 'filename', 'modified' ]
+\     ]
+\   },
+\   'component': {
+\     'lineinfo': '¶ %3l:%-2v',
+\   },
+\   'component_function': {
+\     'gitbranch': 'fugitive#head',
+\   }
+\ }
+let g:lightline.separator = { 'left': '▶', 'right': '◀' }
+"let g:lightline.subseparator = { 'left': " | ", 'right': " | " }
+let g:lightline.subseparator = { 'left': " \uFE19", 'right': " \uFE19" }
+let g:lightline.tabline = { 'left': [ ['tabs'] ], 'right': [ ['close'] ] }
+
+"=====================================================================
 "# Plugin ShowMarks 설정
 "=====================================================================
 let g:showmarks_enable = 1
@@ -265,50 +287,4 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|public$\|log$\|tmp$\|vendor$',
   \ 'file': '\v\.(exe|so|dll|a|o|class)$'
 \ }
-
-"=====================================================================
-"# Plugin vim-airline 설정
-"=====================================================================
-let g:airline_highlighting_cache = 1
-let g:airline_powerline_fonts = 1
-let g:airline_exclude_preview = 1
-let g:bufferline_echo = 0
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#syntastic#enabled = 0
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#tab_min_count = 2
-let g:airline#extensions#tabline#buffer_min_count = 2
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-
-"let g:airline_theme='tomorrow'
-let g:airline_theme='powerlineish'
-let g:airline_theme='dark'
-
-let g:airline_enable_branch = 1
-let g:airline_enable_syntastic = 1
-
-set ttimeoutlen=50
-
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-" unicode symbols
-let g:airline_left_sep = '»' 
-let g:airline_left_sep = '▶' 
-let g:airline_right_sep = '«' 
-let g:airline_right_sep = '◀' 
-let g:airline_symbols.linenr = '␊' 
-let g:airline_symbols.linenr = '␤' 
-let g:airline_symbols.linenr = '¶' 
-let g:airline_symbols.maxlinenr = ''
-let g:airline_symbols.maxlinenr = '㏑'
-let g:airline_symbols.branch = '⎇' 
-let g:airline_symbols.paste = 'ρ' 
-let g:airline_symbols.paste = 'Þ' 
-let g:airline_symbols.paste = '∥' 
-let g:airline_symbols.spell = 'Ꞩ'
-let g:airline_symbols.notexists = '∄'
-let g:airline_symbols.whitespace = 'Ξ' 
 
