@@ -174,16 +174,26 @@ let g:lightline = {
 \     ]
 \   },
 \   'component': {
-\     'lineinfo': '¶ %3l:%-2v',
+\     'lineinfo': ' %3l:%-2v',
 \   },
 \   'component_function': {
-\     'gitbranch': 'fugitive#head',
-\   }
+\     'readonly': 'LightlineReadonly',
+\     'gitbranch': 'LightlineFugitive',
+\   },
+\   'separator': { 'left': '', 'right': '' },
+\   'subseparator': { 'left': '', 'right': '' }
 \ }
-let g:lightline.separator = { 'left': '▶', 'right': '◀' }
-"let g:lightline.subseparator = { 'left': " | ", 'right': " | " }
-let g:lightline.subseparator = { 'left': " \uFE19", 'right': " \uFE19" }
-let g:lightline.tabline = { 'left': [ ['tabs'] ], 'right': [ ['close'] ] }
+
+function! LightlineReadonly()
+	return &readonly ? '' : ''
+endfunction
+function! LightlineFugitive()
+	if exists('*fugitive#head')
+		let branch = fugitive#head()
+		return branch !=# '' ? ''.branch : ''
+	endif
+	return ''
+endfunction
 
 "=====================================================================
 "# Plugin ShowMarks 설정
