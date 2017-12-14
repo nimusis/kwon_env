@@ -47,3 +47,11 @@ python ~/.kwon_env/vim/plugged/YouCompleteMe/install.py --all
 ```
 [참고 링크] (http://neverapple88.tistory.com/26)
 
+
+파워라인 폰트
+--------
+unicode 특수 문자로 쓰던 부분을 파워라인 폰트로 변경
+
+네이버의 D2Coding 폰트에서 powerline 지원
+
+[d2Coding 폰트] (https://github.com/naver/d2codingfont)
