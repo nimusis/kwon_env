@@ -18,7 +18,7 @@ else
 fi
 
 curl -fLo $kwonEnvDir/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-curl -fLo $kwonEnvDir/vim/.ycm_extra_conf.py https://github.com/Valloric/ycmd/raw/master/cpp/ycm/.ycm_extra_conf.py
+curl -fLo $kwonEnvDir/vim/.ycm_extra_conf.py https://github.com/Valloric/ycmd/raw/master/.ycm_extra_conf.py
 
 if grep -q '.kwon_env' $HOME/.bashrc; then
 	echo "kwon_env aliases already exist!"
