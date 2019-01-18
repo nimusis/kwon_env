@@ -6,28 +6,30 @@ call plug#begin('~/.kwon_env/vim/plugged')
 
 " SYNTAX HIGHLIGHT
 Plug 'justinmk/vim-syntax-extra'
-Plug 'exvim/ex-showmarks'
-"Plug 'vim-scripts/ShowMarks'
+Plug 'kshenoy/vim-signature' "Show marks
 
 " COLOR SCHEME
 Plug 'nimusis/Tomorrow-Night-Eighties.vim'
 
 " FILE FINDER
 Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
+Plug 'wesleyche/SrcExpl'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-obsession'
+Plug 'dhruvasagar/vim-prosession'
+Plug 'gikmx/ctrlp-obsession' "Session navigator using vim-obsession/vim-prosession
 "
 " INTERFACE
 Plug 'majutsushi/tagbar'
-Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-startify'
+Plug 'vim-airline/vim-airline' " airline
+Plug 'vim-airline/vim-airline-themes'
 
 " GIT
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
 " OTHER FEATURES
-Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-expand-region'
 Plug 'farmergreg/vim-lastplace'
 
@@ -61,6 +63,8 @@ set bs=2        " allow backspacing over everything in insert mode
 set viminfo='20,\"50    " read/write a .viminfo file, don't store more
             " than 50 lines of registers
 set history=50      " keep 50 lines of command line history
+
+set t_kb=
 
 "=====================================================================
 "# 시스템 기본 설정
@@ -148,81 +152,77 @@ highlight CursorIM guibg=Yellow guifg=NONE " 한글
 " endif
 
 "=====================================================================
+"# 버퍼간 이동
+"=====================================================================
+"===  BUFFER : this concept is heavily inspired from
+" http://bakyeono.net/post/2015-08-13-vim-tab-madness-translate.html
+" 이 옵션은 버퍼를 수정한 직후 버퍼를 감춰지도록 한다.
+" 이 방법으로 버퍼를 사용하려면 거의 필수다.
+set hidden
+" 버퍼 새로 열기
+" 원래 이 단축키로 바인딩해 두었던 :tabnew를 대체한다.
+nmap <leader>T :enew<cr>
+" 다음 버퍼로 이동
+nmap <tab> :bnext<CR>
+" 이전 버퍼로 이동
+"nmap <leader>; :bprevious<CR>
+" 현재 버퍼를 닫고 이전 버퍼로 이동
+" 탭 닫기 단축키를 대체한다.
+nmap <leader>bq :bp <BAR> bd #<CR>
+" 모든 버퍼와 각 버퍼 상태 출력
+nmap <leader>bl :ls<CR>
+
+map ,1 :b!1<CR>	  " Switch to File Buffer #1
+map ,2 :b!2<CR>	  " Switch to File Buffer #2
+map ,3 :b!3<CR>	  " Switch to File Buffer #3
+map ,4 :b!4<CR>	  " Switch to File Buffer #4
+map ,5 :b!5<CR>	  " Switch to File Buffer #5
+map ,6 :b!6<CR>	  " Switch to File Buffer #6
+map ,7 :b!7<CR>	  " Switch to File Buffer #7
+map ,8 :b!8<CR>	  " Switch to File Buffer #8
+map ,9 :b!9<CR>	  " Switch to File Buffer #9
+map ,0 :b!0<CR>	  " Switch to File Buffer #0
+
+"=====================================================================
 "# Function Key Map 설정
 "=====================================================================
 " 탭 이동
-map <tab> gt<CR>
+"map <tab> gt<CR>
 
 "Tlist 실행
 map <silent> <F9> :TagbarToggle<CR>
 
+"=====  PageUP PageDown
 map <PageUp> <C-U><C-U>
 map <PageDowm> <C-D><C-D>
 
-nnoremap <F7> :NERDTreeFind<CR>
-nnoremap <F8> :NERDTreeToggle<CR>
+"===== Vim 내의 창 크기 조절
+nmap <s-h> <C-W><
+nmap <s-j> <C-W>-
+nmap <s-k> <C-W>+
+nmap <s-l> <C-W>>
+
+"===== Vim 내에서 창 간 이동
+nmap <c-h> <c-w>h
+nmap <c-j> <c-w>j 
+nmap <c-k> <c-w>k 
+nmap <c-l> <c-w>l 
+
+nnoremap <silent> <special> <F8> :NERDTreeToggle <Bar> if &filetype ==# 'nerdtree' <Bar> wincmd p <Bar> endif<CR>
 
 "=====================================================================
-"# Plugin lightline 설정
+"# ShowMarks 설정
 "=====================================================================
-"let g:lightline = { 'colorscheme': 'wombat', 'component': { 'readonly': '%{&readonly?"⭤":""}', } }
-let g:lightline = {
-\   'colorscheme': 'one',
-\   'active': {
-\     'left':[ [ 'mode', 'paste' ],
-\              [ 'gitbranch', 'readonly', 'filename', 'modified' ]
-\     ]
-\   },
-\   'component': {
-\     'lineinfo': ' %3l:%-2v',
-\   },
-\   'component_function': {
-\     'readonly': 'LightlineReadonly',
-\     'gitbranch': 'LightlineFugitive',
-\   },
-\   'separator': { 'left': '', 'right': '' },
-\   'subseparator': { 'left': '', 'right': '' }
-\ }
+nnoremap <leader>m :SignatureToggle<CR>
+highlight SignatureMarkText guifg=White ctermfg=White
 
-function! LightlineReadonly()
-	return &readonly ? '' : ''
-endfunction
-function! LightlineFugitive()
-	if exists('*fugitive#head')
-		let branch = fugitive#head()
-		return branch !=# '' ? ''.branch : ''
-	endif
-	return ''
-endfunction
 
 "=====================================================================
-"# Plugin ShowMarks 설정
+"# Plugin airline 설정
 "=====================================================================
-let g:showmarks_enable = 1
-let g:showmarks_include= "abcdefhijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-let g:showmarks_ignore_type= "hprmq"
-let showmarks_hlline_lower = 1
-let showmarks_hlline_upper = 0
-
-"l : lowcase, u : upcase, o : other, m: multiple
-"highlight ShowMarksHLl ctermfg=white ctermbg=blue
-"highlight ShowMarksHLu ctermfg=white ctermbg=blue
-"highlight ShowMarksHLo ctermfg=white ctermbg=blue
-"highlight ShowMarksHLm ctermfg=white ctermbg=blue
-
-" highlights 
-" For marks a-z
-hi clear ShowMarksHLl
-hi ShowMarksHLl term=bold cterm=none ctermbg=LightBlue ctermfg=DarkBlue gui=none guibg=LightBlue
-" For marks A-Z
-hi clear ShowMarksHLu
-hi ShowMarksHLu term=bold cterm=bold ctermbg=LightRed ctermfg=DarkRed gui=bold guibg=LightRed guifg=DarkRed
-" For all other marks
-hi clear ShowMarksHLo
-hi ShowMarksHLo term=bold cterm=bold ctermbg=LightYellow ctermfg=DarkYellow gui=bold guibg=LightYellow guifg=DarkYellow
-" For multiple marks on the same line.
-hi clear ShowMarksHLm
-hi ShowMarksHLm term=bold cterm=none ctermbg=LightBlue gui=none guibg=SlateBlue
+let g:airline#extensions#tabline#enabled = 1 "buffer list
+let g:airline#extensions#tabline#fnamemod = ':t' "buffer file name print only
+let g:airline_powerline_fonts = 1 "able powerline font. disable if font breaks. Or install powerline-patch
 
 "=====================================================================
 "# Plugin TAGBAR 설정
@@ -251,7 +251,7 @@ let g:NERDTreeMinimalUI = 1 "NERDTree에서 (위에뜨는) help/bookmark 메세�
 let g:NERDTreeShowHidden = 0 "숨김파일을 보여준다고 합니다.
 let g:NERDTreeDirArrows=0
 let g:NERDTreeShowLineNumbers=1 "라인을 보여줍니다
-let g:NERDTreeQuitOnOpen=1 "파일 오픈하고 나면 닫히도록 설정.
+let g:NERDTreeQuitOnOpen=0 "파일 오픈하고 나면 닫히도록 설정.
 let g:NERDTreeCaseSensitiveSort=1
 
 " let g:NERDTreeShowFiles = 0 "0이면 파일을 보여주지 않고, 디렉토리만 보여줍니다.
@@ -295,6 +295,66 @@ let g:ycm_confirm_extra_conf = 0
 "파일 인덱싱 속도를 느리게 하는 디렉토리 ignore
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|public$\|log$\|tmp$\|vendor$',
-  \ 'file': '\v\.(exe|so|dll|a|o|class)$'
+  \ 'file': '\v\.(exe|so|dll|a|o|class|png|jpg)$'
 \ }
+let g:ctrlp_show_hidden = 0
+let g:ctrlp_map = '<c-p>'
+" 가장 가까운 .git 디렉토리를 cwd(현재 작업 디렉토리)로 사용
+" 버전 관리를 사용하는 프로젝트를 할 때 꽤 적절하다.
+" .svn, .hg, .bzr도 지원한다.
+let g:ctrlp_working_path_mode = 'r'
+" Too slow ctrlp: https://stackoverflow.com/questions/21346068/slow-performance-on-ctrlp-it-doesnt-work-to-ignore-some-folders
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+if executable('ag')
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+let g:ctrlp_clear_cache_on_exit = 0
+
+" 단축키를 리더 키로 대체
+nmap <leader>p :CtrlP<cr>
+" 여러 모드를 위한 단축키
+nmap <leader>bb :CtrlPBuffer<cr>
+nmap <leader>bm :CtrlPMixed<cr>
+nmap <leader>bs :CtrlPMRU<cr>
+
+"====================================================
+"= Source Explorer config
+"====================================================
+nnoremap <F5> :SrcExplToggle<CR>
+
+" // Set the height of Source Explorer window
+let g:SrcExpl_winHeight = 8
+" // Set 100 ms for refreshing the Source Explorer
+let g:SrcExpl_refreshTime = 100
+" // Set "Enter" key to jump into the exact definition context
+let g:SrcExpl_jumpKey = "<ENTER>"
+" // Set "Space" key for back from the definition context
+let g:SrcExpl_gobackKey = "<SPACE>"
+
+" // In order to avoid conflicts, the Source Explorer should know what plugins
+" // except itself are using buffers. And you need add their buffer names into
+" // below listaccording to the command ":buffers!"
+let g:SrcExpl_pluginList = [
+				\ "__Tag_List__",
+				\ "NERD_tree_1",
+				\ "Source_Explorer",
+				\ "[BufExplorer]"
+				\ ]
+
+" // Enable/Disable the local definition searching, and note that this is not
+" // guaranteed to work, the Source Explorer doesn't check the syntax for now.
+" // It only searches for a match with the keyword according to command 'gd'
+let g:SrcExpl_searchLocalDef = 1
+" // Do not let the Source Explorer update the tags file when opening
+let g:SrcExpl_isUpdateTags = 0
+" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to
+" // create/update the tags file
+let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
+" // Set "<F6>" key for updating the tags file artificially
+let g:SrcExpl_updateTagsKey = "<F6>"
+
+" // Set "<F3>" key for displaying the previous definition in the jump list
+let g:SrcExpl_prevDefKey = "<F3>"
+" // Set "<F4>" key for displaying the next definition in the jump list
+let g:SrcExpl_nextDefKey = "<F4>"
 
