@@ -39,6 +39,9 @@ C_BG_LIGHTGRAY="\[\033[47m\]"
 #export PS1="\u@\h:\w$ "
 export PS1="$C_GREEN\u$C_DEFAULT@$C_CYAN\h:$C_YELLOW\w$C_DEFAULT$ "
 eval `dircolors ~/.kwon_env/dircolors.custom -b`
+
+tmux source ~/.kwon_env/tmux.conf
+
 alias ls='ls --color=auto --show-control-chars'
 alias rm='rm -i'
 alias cp='cp -i'
@@ -46,6 +49,12 @@ alias mv='mv -f'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+
+###############################
+alias ta="tmux -2 attach -t "
+alias tn="tmux -2 new -s "
+alias tm="tmux -2 attach -t MAIN"
+alias tl="tmux -2 ls"
 
 ###############################
 alias vi='vim -u ~/.kwon_env/vimrc'

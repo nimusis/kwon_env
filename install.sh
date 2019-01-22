@@ -20,6 +20,8 @@ fi
 curl -fLo $kwonEnvDir/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 curl -fLo $kwonEnvDir/vim/.ycm_extra_conf.py https://github.com/Valloric/ycmd/raw/master/.ycm_extra_conf.py
 
+git clone https://github.com/tmux-plugins/tmux-resurrect $kwonEnvDir/tmux-resurrect
+
 if grep -q '.kwon_env' $HOME/.bashrc; then
 	echo "kwon_env aliases already exist!"
 else

@@ -172,16 +172,17 @@ nmap <leader>bq :bp <BAR> bd #<CR>
 " 모든 버퍼와 각 버퍼 상태 출력
 nmap <leader>bl :ls<CR>
 
-map ,1 :b!1<CR>	  " Switch to File Buffer #1
-map ,2 :b!2<CR>	  " Switch to File Buffer #2
-map ,3 :b!3<CR>	  " Switch to File Buffer #3
-map ,4 :b!4<CR>	  " Switch to File Buffer #4
-map ,5 :b!5<CR>	  " Switch to File Buffer #5
-map ,6 :b!6<CR>	  " Switch to File Buffer #6
-map ,7 :b!7<CR>	  " Switch to File Buffer #7
-map ,8 :b!8<CR>	  " Switch to File Buffer #8
-map ,9 :b!9<CR>	  " Switch to File Buffer #9
-map ,0 :b!0<CR>	  " Switch to File Buffer #0
+" Switch to File Buffer #
+map ,1 :b!1<CR>
+map ,2 :b!2<CR>
+map ,3 :b!3<CR>
+map ,4 :b!4<CR>
+map ,5 :b!5<CR>
+map ,6 :b!6<CR>
+map ,7 :b!7<CR>
+map ,8 :b!8<CR>
+map ,9 :b!9<CR>
+map ,0 :b!0<CR>
 
 "=====================================================================
 "# Function Key Map 설정
