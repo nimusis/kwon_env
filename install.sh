@@ -15,6 +15,7 @@ else
 	curl -fLo $kwonEnvDir/bashrc https://raw.githubusercontent.com/nimusis/kwon_env/master/bashrc
 	curl -fLo $kwonEnvDir/dircolors.custom https://raw.githubusercontent.com/nimusis/kwon_env/master/dircolors.custom
 	curl -fLo $kwonEnvDir/vimrc https://raw.githubusercontent.com/nimusis/kwon_env/master/vimrc
+	curl -fLo $kwonEnvDir/tmux.conf https://raw.githubusercontent.com/nimusis/kwon_env/master/tmux.conf
 fi
 
 curl -fLo $kwonEnvDir/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
