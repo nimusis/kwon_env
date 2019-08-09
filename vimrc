@@ -359,3 +359,5 @@ let g:SrcExpl_prevDefKey = "<F3>"
 " // Set "<F4>" key for displaying the next definition in the jump list
 let g:SrcExpl_nextDefKey = "<F4>"
 
+"root 권한의 파일을 수정할 때 :Sw
+command! -nargs=0 Sw w !sudo tee % > /dev/null
