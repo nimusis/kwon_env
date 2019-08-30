@@ -224,6 +224,8 @@ highlight SignatureMarkText guifg=White ctermfg=White
 let g:airline#extensions#tabline#enabled = 1 "buffer list
 let g:airline#extensions#tabline#fnamemod = ':t' "buffer file name print only
 let g:airline_powerline_fonts = 1 "able powerline font. disable if font breaks. Or install powerline-patch
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
 
 "=====================================================================
 "# Plugin TAGBAR 설정
