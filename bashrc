@@ -59,4 +59,10 @@ alias tl="tmux -2 ls"
 ###############################
 alias vi='vim -u ~/.kwon_env/vimrc'
 alias vim='vim -u ~/.kwon_env/vimrc'
+
+###############################
+HISTTIMEFORMAT="%F %T -- "
+export HISTTIMEFORMAT
+declare -r HISTFILE
+
 ###############################
