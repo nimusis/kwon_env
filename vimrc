@@ -15,9 +15,9 @@ Plug 'nimusis/Tomorrow-Night-Eighties.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'wesleyche/SrcExpl'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tpope/vim-obsession'
-Plug 'dhruvasagar/vim-prosession'
-Plug 'gikmx/ctrlp-obsession' "Session navigator using vim-obsession/vim-prosession
+"Plug 'tpope/vim-obsession'
+"Plug 'dhruvasagar/vim-prosession'
+"Plug 'gikmx/ctrlp-obsession' "Session navigator using vim-obsession/vim-prosession
 "
 " INTERFACE
 Plug 'majutsushi/tagbar'
