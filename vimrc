@@ -6,46 +6,23 @@ call plug#begin('~/.kwon_env/vim/plugged')
 
 " SYNTAX HIGHLIGHT
 Plug 'justinmk/vim-syntax-extra'
-Plug 'kshenoy/vim-signature' "Show marks
 
 " COLOR SCHEME
 Plug 'nimusis/Tomorrow-Night-Eighties.vim'
 
 " FILE FINDER
 Plug 'scrooloose/nerdtree'
-Plug 'wesleyche/SrcExpl'
-Plug 'ctrlpvim/ctrlp.vim'
-"Plug 'tpope/vim-obsession'
-"Plug 'dhruvasagar/vim-prosession'
-"Plug 'gikmx/ctrlp-obsession' "Session navigator using vim-obsession/vim-prosession
 "
 " INTERFACE
-Plug 'majutsushi/tagbar'
-Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline' " airline
 Plug 'vim-airline/vim-airline-themes'
 
 " GIT
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
 
-" OTHER FEATURES
-Plug 'terryma/vim-expand-region'
-Plug 'farmergreg/vim-lastplace'
-
-" DEV
-Plug 'skammer/vim-css-color'
-
-function! BuildYCM(info)
-  " info is a dictionary with 3 fields
-  " - name:   name of the plugin
-  " - status: 'installed', 'updated', or 'unchanged'
-  " - force:  set on PlugInstall! or PlugUpdate!
-  if a:info.status == 'installed' || a:info.force
-    !./install.py
-  endif
-endfunction
-Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+Plug 'frazrepo/vim-rainbow'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'machakann/vim-highlightedyank'
 
 call plug#end()
 
@@ -53,6 +30,14 @@ syntax on
 filetype plugin indent on
 
 let g:plug_timeout = 10000
+
+let g:rainbow_active = 1
+
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+
+let g:highlightedyank_highlight_duration = -1
 
 "=====================================================================
 "# 이것 저것 설정
@@ -63,8 +48,6 @@ set bs=2        " allow backspacing over everything in insert mode
 set viminfo='20,\"50    " read/write a .viminfo file, don't store more
             " than 50 lines of registers
 set history=50      " keep 50 lines of command line history
-
-set t_kb=
 
 "=====================================================================
 "# 시스템 기본 설정
@@ -165,7 +148,7 @@ nmap <leader>T :enew<cr>
 " 다음 버퍼로 이동
 nmap <tab> :bnext<CR>
 " 이전 버퍼로 이동
-"nmap <leader>; :bprevious<CR>
+nmap <leader><tab> :bprevious<CR>
 " 현재 버퍼를 닫고 이전 버퍼로 이동
 " 탭 닫기 단축키를 대체한다.
 nmap <leader>bq :bp <BAR> bd #<CR>
@@ -187,11 +170,6 @@ map ,0 :b!0<CR>
 "=====================================================================
 "# Function Key Map 설정
 "=====================================================================
-" 탭 이동
-"map <tab> gt<CR>
-
-"Tlist 실행
-map <silent> <F9> :TagbarToggle<CR>
 
 "=====  PageUP PageDown
 map <PageUp> <C-U><C-U>
@@ -211,32 +189,16 @@ nmap <c-l> <c-w>l
 
 nnoremap <silent> <special> <F8> :NERDTreeToggle <Bar> if &filetype ==# 'nerdtree' <Bar> wincmd p <Bar> endif<CR>
 
-"=====================================================================
-"# ShowMarks 설정
-"=====================================================================
-nnoremap <leader>m :SignatureToggle<CR>
-highlight SignatureMarkText guifg=White ctermfg=White
 
 
 "=====================================================================
 "# Plugin airline 설정
 "=====================================================================
-let g:airline#extensions#tabline#enabled = 1 "buffer list
-let g:airline#extensions#tabline#fnamemod = ':t' "buffer file name print only
-let g:airline_powerline_fonts = 1 "able powerline font. disable if font breaks. Or install powerline-patch
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#extensions#tabline#buffer_nr_show = 0
-
-"=====================================================================
-"# Plugin TAGBAR 설정
-"=====================================================================
-let g:tagbar_left = 0 " 0이면 오른쪽, 1이면 왼쪽에 출력
-let g:tagbar_width = 40 "기본폭은 40입니다. 모니터가 작으면 줄여야 겠죠 ㅠ
-let g:tagbar_autoclose = 0 "선택하면 자동으로 닫히게 하려면 1을 할당해 주세요
-let g:tagbar_autofocus = 1 "커서가 이동하면 자동으로 선언된 위치로 갑니다 (?)
-let g:tagbar_foldlevel=2
-let g:tagbar_autoshowtag=1
-let g:tagbar_expand=1
+let g:airline#extensions#tabline#enabled = 1              " vim-airline 버퍼 목록 켜기
+let g:airline#extensions#tabline#fnamemod = ':t'          " vim-airline 버퍼 목록 파일명만 출력
+let g:airline#extensions#tabline#buffer_nr_show = 1       " buffer number를 보여준다
+let g:airline#extensions#tabline#buffer_idx_mode = 0      " 버퍼 index 는 숨김
+let g:airline#extensions#tabline#buffer_nr_format = '%s:' " buffer number format
 
 "=====================================================================
 "# Plugin NERDTREE 설정
@@ -261,105 +223,3 @@ let g:NERDTreeCaseSensitiveSort=1
 " let g:NERDTreeWinPos = right "이렇게 설정하면 오른쪽에 NERDTree가 나타납니다.
 " 이외에 더 자세한건 :help NERDTree
 "nnoremap <Leader>d :NERDTreeToggle<CR>
-"nnoremap <Leader>f :NERDTreeFind<CR>
-
-"=====================================================================
-"# Plugin YouCompleteMe 설정
-"=====================================================================
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_enable_diagnostic_highlighting = 0
-let g:ycm_min_num_of_chars_for_completion = 2
-let g:ycm_auto_trigger = 1
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_confirm_extra_conf = 0
-"let g:ycm_global_ycm_extra_conf = '~/.kwon_env/vim/.ycm_extra_conf.py'
-"let g:ycm_confirm_extra_conf = 0
-"To avoid conflict snippets
-"let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
-"let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
-"let g:ycm_autoclose_preview_window_after_completion = 1
-"let g:ycm_warning_symbol = '>*'
-
-"nnoremap <leader>g :YcmCompleter GoTo<CR>
-"nnoremap <leader>gg :YcmCompleter GoToImprecise<CR>
-"nnoremap <leader>d :YcmCompleter GoToDeclaration<CR>
-"nnoremap <leader>t :YcmCompleter GetType<CR>
-"nnoremap <leader>p :YcmCompleter GetParent<CR>
-
-"let g:ycm_auto_trigger = 0    " 기본값은 1입니다. '.'이나 '->'을 받으면 자동으로 목록들을 출력해주죠.
-"let g:ycm_collect_identifiers_from_tags_files = 1 " tags 파일을 사용합니다. 성능상 이익이 있는걸로 알고 있습니다. 
-"let g:ycm_filetype_whitelist = { '*': 1 } " 화이트 리스트를 설정합니다. 
-"let g:ycm_filetype_blacklist = { 'tagbar' : 1, 'qf' : 1, 'notes' : 1, } " 블랙 리스트를 설정합니다.
-
-"=====================================================================
-"# Plugin ctrlp 설정
-"=====================================================================
-"파일 인덱싱 속도를 느리게 하는 디렉토리 ignore
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|public$\|log$\|tmp$\|vendor$',
-  \ 'file': '\v\.(exe|so|dll|a|o|class|png|jpg)$'
-\ }
-let g:ctrlp_show_hidden = 0
-let g:ctrlp_map = '<c-p>'
-" 가장 가까운 .git 디렉토리를 cwd(현재 작업 디렉토리)로 사용
-" 버전 관리를 사용하는 프로젝트를 할 때 꽤 적절하다.
-" .svn, .hg, .bzr도 지원한다.
-let g:ctrlp_working_path_mode = 'r'
-" Too slow ctrlp: https://stackoverflow.com/questions/21346068/slow-performance-on-ctrlp-it-doesnt-work-to-ignore-some-folders
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-endif
-let g:ctrlp_clear_cache_on_exit = 0
-
-" 단축키를 리더 키로 대체
-nmap <leader>p :CtrlP<cr>
-" 여러 모드를 위한 단축키
-nmap <leader>bb :CtrlPBuffer<cr>
-nmap <leader>bm :CtrlPMixed<cr>
-nmap <leader>bs :CtrlPMRU<cr>
-
-"====================================================
-"= Source Explorer config
-"====================================================
-nnoremap <F5> :SrcExplToggle<CR>
-
-" // Set the height of Source Explorer window
-let g:SrcExpl_winHeight = 8
-" // Set 100 ms for refreshing the Source Explorer
-let g:SrcExpl_refreshTime = 100
-" // Set "Enter" key to jump into the exact definition context
-let g:SrcExpl_jumpKey = "<ENTER>"
-" // Set "Space" key for back from the definition context
-let g:SrcExpl_gobackKey = "<SPACE>"
-
-" // In order to avoid conflicts, the Source Explorer should know what plugins
-" // except itself are using buffers. And you need add their buffer names into
-" // below listaccording to the command ":buffers!"
-let g:SrcExpl_pluginList = [
-				\ "__Tag_List__",
-				\ "NERD_tree_1",
-				\ "Source_Explorer",
-				\ "[BufExplorer]"
-				\ ]
-
-" // Enable/Disable the local definition searching, and note that this is not
-" // guaranteed to work, the Source Explorer doesn't check the syntax for now.
-" // It only searches for a match with the keyword according to command 'gd'
-let g:SrcExpl_searchLocalDef = 1
-" // Do not let the Source Explorer update the tags file when opening
-let g:SrcExpl_isUpdateTags = 0
-" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to
-" // create/update the tags file
-let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
-" // Set "<F6>" key for updating the tags file artificially
-let g:SrcExpl_updateTagsKey = "<F6>"
-
-" // Set "<F3>" key for displaying the previous definition in the jump list
-let g:SrcExpl_prevDefKey = "<F3>"
-" // Set "<F4>" key for displaying the next definition in the jump list
-let g:SrcExpl_nextDefKey = "<F4>"
-
-"root 권한의 파일을 수정할 때 :Sw
-command! -nargs=0 Sw w !sudo tee % > /dev/null
