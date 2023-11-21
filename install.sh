@@ -13,7 +13,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$ZSH/cu
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$ZSH/custom}/plugins/zsh-syntax-highlighting
 
 # fzf 설치
-#git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install --bin --all --no-bash --no-fish
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install --bin --all --no-bash --no-fish
 
 # oh-my-tmux 설치
 curl -fLo $KWON_CONFIG_HOME/tmux/tmux.conf --create-dirs https://raw.githubusercontent.com/gpakosz/.tmux/master/.tmux.conf
