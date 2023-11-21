@@ -87,8 +87,8 @@ export SHELL=/usr/bin/zsh
 
 
 ###############################
-alias vi='vim -u /home/gekwon/.kwon_env/vimrc'
-alias vim='vim -u /home/gekwon/.kwon_env/vimrc'
+alias vi='vim -u $XDG_CONFIG_HOME/vimrc'
+alias vim='vim -u $XDG_CONFIG_HOME/vimrc'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
