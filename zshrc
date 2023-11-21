@@ -55,7 +55,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting tmux)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting tmux tmuxinator)
 source $ZSH/oh-my-zsh.sh
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -89,6 +89,7 @@ export SHELL=/usr/bin/zsh
 ###############################
 alias vi='vim -u $XDG_CONFIG_HOME/vimrc'
 alias vim='vim -u $XDG_CONFIG_HOME/vimrc'
+alias mux="tmuxinator"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
