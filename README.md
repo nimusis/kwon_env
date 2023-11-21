@@ -37,10 +37,11 @@ cd ..
 rm -rf fonts
 ```
 
-#### tmux 설치
+#### tmux & tmuxinator 설치
 
-
-
+```shell
+sudo apt-get install -y tmux tmuxinator
+```
 
 # kwon env 설치
 
@@ -106,3 +107,64 @@ prefix = ctrl+a
 |판넬 번호보기|prefix + q|
 |현재 시간보기|prefix + t|
 |바인딩 된 키 목록 보기|prefix + ?|
+
+### tmuxinator
+alias 로 mux 설정 해놓음.
+
+| | command|
+|-|-|
+|새로운 프로젝트 생성|mux new (project name)|
+|프로젝트를 tmux로 시작|mux start (project name)|
+|프로젝트 목록 보기|mux ls|
+
+#### 기본 레이아웃
+```yml
+name: test
+root: ~/
+
+windows:
+  - editor:
+      layout: main-vertical
+      panes:
+        - vim
+        - htop
+  - server:
+      layout: main-vertical
+      panes:
+        - pane_with_multiple_commands:
+            - docker exec -it myserver bash
+            - top
+  - logs: tail -f /home/user/logs/info.log
+```
+
+#### 레이아웃을 커스텀하게 하는 법
+
+`tmux list-windows` 명령어를 통해 현재 레이아웃 정보를 얻어옴
+
+```shell
+tmux list-windows
+0: editor* (2 panes) [256x50] [layout 5805,256x50,0,0{136x50,0,0,0,119x50,137,0,3}] @0 (active)
+1: server# (1 panes) [256x50] [layout b0de,256x50,0,0,1] @1
+2: logs#- (1 panes) [256x50] [layout b0df,256x50,0,0,2] @2
+```
+
+판넬을 커스텀 레이아웃으로 변경
+
+```yml
+name: test
+root: ~/
+
+windows:
+  - editor:
+      layout: 5805,256x50,0,0{136x50,0,0,0,119x50,137,0,3}
+      panes:
+        - vim
+        - htop
+  - server:
+      layout: main-vertical
+      panes:
+        - pane_with_multiple_commands:
+            - docker exec -it myserver bash
+            - top
+  - logs: tail -f /home/user/logs/info.log
+```
