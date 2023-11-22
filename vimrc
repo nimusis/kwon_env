@@ -5,7 +5,7 @@ call plug#begin('~/.kwon_env/vim/plugged')
 " Make sure you use single quotes
 
 " SYNTAX HIGHLIGHT
-Plug 'justinmk/vim-syntax-extra'
+Plug 'sheerun/vim-polyglot'
 
 " COLOR SCHEME
 Plug 'nimusis/Tomorrow-Night-Eighties.vim'
