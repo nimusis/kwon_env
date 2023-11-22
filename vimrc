@@ -49,6 +49,9 @@ set viminfo='20,\"50    " read/write a .viminfo file, don't store more
             " than 50 lines of registers
 set history=50      " keep 50 lines of command line history
 
+"vim-polyglot 에 있는 chrisbra/csv.vim 플러그인이 csv 의 delimit 을 변경하지 않도록
+let g:csv_no_conceal = 1
+
 "=====================================================================
 "# 시스템 기본 설정
 "=====================================================================
