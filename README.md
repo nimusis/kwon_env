@@ -39,6 +39,11 @@ rm -rf fonts
 
 #### tmux & tmuxinator 설치
 
+요구사항 :
+* tmux >= 2.4
+
+오래 된 OS 에서는 https://github.com/nelsonenzo/tmux-appimage 여기 참고할 만도 함..
+
 ```shell
 sudo apt-get install -y tmux tmuxinator
 ```
