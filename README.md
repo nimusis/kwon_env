@@ -5,13 +5,21 @@ zsh 를 이용한 내 설정방법
 
 # 필요한 패키지 설치
 
-#### zsh 설치
+* zsh
+* vim >= 7.0 (recommended >= 8.0)
+* git >= 1.7 (recommended >= 1.8)
+* python >= 2.6
+* tmux >= 2.4
+* tmuxinator
+
+### zsh 설치
 
 ```shell
 sudo apt-get install zsh
 ```
 
-#### 폰트 설치
+
+### 폰트 설치
 unicode 특수 문자로 쓰던 부분을 파워라인 폰트로 변경
 
 네이버의 D2Coding 폰트에서 powerline 지원
@@ -37,15 +45,83 @@ cd ..
 rm -rf fonts
 ```
 
-#### tmux & tmuxinator 설치
+### tmux 설치
 
-요구사항 :
+최소 요구사항 :
 * tmux >= 2.4
 
-오래 된 OS 에서는 https://github.com/nelsonenzo/tmux-appimage 여기 참고할 만도 함..
+패키지 매니저의 tmux 버전이 낮을 경우 아래 링크정보 참고 할만함.
+https://github.com/nelsonenzo/tmux-appimage
+
+Ubuntu
 
 ```shell
-sudo apt-get install -y tmux tmuxinator
+sudo apt-get install -y tmux
+```
+
+Centos
+```shell
+sudo yum install tmux
+```
+
+### tmuxinator 설치
+최소 요구사항 :
+* ruby >= 2.4
+
+
+### tmux & tmuxinator 설치
+
+요구사항 :
+* tmuxinator requires Ruby version >= 2.6.7
+
+Ubuntu
+
+```shell
+sudo apt-get install tmuxinator
+```
+
+Centos
+```shell
+sudo yum install tmuxinator
+```
+
+#### ruby 를 이용한 설치 방안
+
+패키지 매니저의 ruby 버전이 낮을 경우, rvm 을 통해 ruby 설치
+
+1. RVM GPG key 설치하기
+
+```shell
+curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -
+```
+
+2. RVM 설치 스크립트 다운로드 및 실행
+
+```shell
+curl -sSL https://get.rvm.io | bash -s stable
+```
+스크립트 실행 후 나타나는 명령을 통해 source 로드
+```shell
+source ?????.rvm/scripts/rvm
+rvm reload
+```
+
+3. RVM 의존성 패키지 설치
+
+```shell
+rvm requirements run
+```
+
+4. ruby 설치 및 기본버전 지정
+
+```shell
+rvm install 2.7
+rvm use 2.7 --default
+```
+
+5. RubyGems 를 이용한 tmuxinator 설치
+```shell
+gem install tmuxinator
 ```
 
 # kwon env 설치
@@ -54,14 +130,13 @@ sudo apt-get install -y tmux tmuxinator
 curl -L https://raw.githubusercontent.com/nimusis/kwon_env/master/install.sh | bash
 ```
 
+## 포함 된 설치파일
 
-#### vim 설정
+* oh my zsh (https://ohmyz.sh/)
+* vim-plug (https://github.com/junegunn/vim-plug)
+* fuzzy finder (https://github.com/junegunn/fzf)
+* Oh my tmux (https://github.com/gpakosz/.tmux)
 
-vim을 열고 아래 명령 실행하여 플러그인을 설치함.
-
-`:PlugInstall`
-
-[상세 커맨드 확인] (https://github.com/junegunn/vim-plug)
 
 
 ## 활용
@@ -173,3 +248,29 @@ windows:
             - top
   - logs: tail -f /home/user/logs/info.log
 ```
+
+### fzf
+| | command|
+|-|-|
+|전체 파일 찾기|ctrl + t|
+|히스토리 찾기|ctrl + r|
+|파일 내 문자열 찾기|fif [text]|
+|디렉토리 찾기|sdt|
+
+#### 퍼지 파인드를 더 잘 활용하기 위한 유틸 설치
+
+* bat : cat 대용. 미리 설정된 syntax highlighting과 git diff 연동 https://github.com/sharkdp/bat
+* ripgrep : 디렉터리 안의 파일 내용을 정규식으로 찾아주는 플러그인. https://github.com/BurntSushi/ripgrep
+
+**설치**
+```shell
+sudo apt install bat
+ln -s /usr/bin/batcat ~/.kwon_env/bin/bat
+
+sudo apt install ripgrep
+```
+
+(centos)
+$ sudo yum install -y yum-utils
+$ sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
+$ sudo yum install ripgrep

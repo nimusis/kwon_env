@@ -3,6 +3,7 @@
 # Path to your oh-my-zsh installation.
 export XDG_CONFIG_HOME=$HOME/.kwon_env
 export ZSH="$XDG_CONFIG_HOME/oh-my-zsh"
+export PATH=$PATH:$HOME/.kwon_env/bin
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -55,7 +56,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting tmux tmuxinator)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting tmux tmuxinator fzf ripgrep)
 source $ZSH/oh-my-zsh.sh
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -87,10 +88,48 @@ export SHELL=/usr/bin/zsh
 
 
 ###############################
+function fif() {
+  if [ ! "$#" -gt 0 ]; then echo "검색어를 입력해주세요."; return 1; fi
+  if [ -z "$(command -v rg)" ]; then echo "rg(ripgrep) 이 설치되어 있지 않습니다."; return 1; fi
+  local preview_cmd=bat
+  if [ -z "$(command -v bat)" ]; then preview_cmd=cat; fi
+  local file
+  file=$(rg --files-with-matches --no-messages $2 "$1" | fzf\
+  --border\
+  --height 80%\
+  --extended\
+  --ansi\
+  --reverse\
+  --cycle\
+  --header 'Find in File'\
+  --bind 'f1:execute(less -f {}),ctrl-y:execute-silent(echo {} | pbcopy)+abort'\
+  --bind 'PgUp:preview-up,PgDn:preview-down'\
+  --bind '?:toggle-preview'\
+  --bind 'Home:execute(vim -u $XDG_CONFIG_HOME/vimrc {} >/dev/tty </dev/tty)'\
+  --preview "$preview_cmd --theme='OneHalfDark' --style=numbers --color=always {} | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}") && vim "$file"
+}
+
+function sdt() {
+  if [ -z "$(command -v tree)" ]; then echo "tree가 설치되어 있지 않습니다."; return 1; fi
+  local dir
+  dir=$(find . -type d -not -path '*/\.git/*' 2>/dev/null | fzf\
+  --header 'Search In Directory'\
+  --border\
+  --height 80%\
+  --extended\
+  --ansi\
+  --reverse\
+  --cycle\
+  --header 'Search Directory'\
+  --bind 'PgUp:preview-up,PgDn:preview-down'\
+  --bind '?:toggle-preview'\
+  --preview 'tree -d -C -L 2  {} | head -200 2>/dev/null'\
+  --preview-window=right:50%) && cd "$dir"
+}
+
+###############################
 alias vi='vim -u $XDG_CONFIG_HOME/vimrc'
 alias vim='vim -u $XDG_CONFIG_HOME/vimrc'
 alias mux="tmuxinator"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 tmux source $XDG_CONFIG_HOME/tmux/tmux.conf
