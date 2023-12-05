@@ -123,6 +123,18 @@ gem install tmuxinator
 * bat : cat 대용. 미리 설정된 syntax highlighting과 git diff 연동 https://github.com/sharkdp/bat
 * ripgrep : 디렉터리 안의 파일 내용을 정규식으로 찾아주는 플러그인. https://github.com/BurntSushi/ripgrep
 
+#### git 의 release 를 이용한 설치
+
+참고 URL : https://github.com/sharkdp/bat/issues/325
+
+```shell
+# bat 설치
+V=$(curl --silent "https://api.github.com/repos/sharkdp/bat/releases/latest" | grep -Eo '"tag_name": "v(.*)"' | sed -E 's/.*"([^"]+)".*/\1/') && wget "https://github.com/sharkdp/bat/releases/download/$V/bat-$V-x86_64-unknown-linux-musl.tar.gz" -O - |tar -xvzf - -C ~/.kwon_env/bin  --strip-components 1 bat-$V-x86_64-unknown-linux-musl/bat && unset V
+
+
+#ripgrep 설치
+V=$(curl --silent "https://api.github.com/repos/BurntSushi/ripgrep/releases/latest" | grep -Eo '"tag_name": "(.*)"' | sed -E 's/.*"([^"]+)".*/\1/') && wget "https://github.com/BurntSushi/ripgrep/releases/download/$V/ripgrep-$V-x86_64-unknown-linux-musl.tar.gz" -O - |tar -xvzf - -C ~/.kwon_env/bin  --strip-components 1 ripgrep-$V-x86_64-unknown-linux-musl/rg && unset V
+```
 
 **Ubuntu**
 ```shell

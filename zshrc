@@ -112,17 +112,13 @@ export FZF_CTRL_T_OPTS="--preview-window right:60% --preview-window noborder --p
 function fif() {
   if [ ! "$#" -gt 0 ]; then echo "검색어를 입력해주세요."; return 1; fi
   if [ -z "$(command -v rg)" ]; then echo "rg(ripgrep) 이 설치되어 있지 않습니다."; return 1; fi
-  local preview_cmd=bat
-  if [ -z "$(command -v bat)" ]; then preview_cmd=cat; fi
   rg --files-with-matches --no-messages $2 "$1" | fzf\
-  --border\
   --height 80%\
   --extended\
   --ansi\
-  --reverse\
   --cycle\
   --header 'Find in File'\
-  --preview "$preview_cmd --theme='OneHalfDark' --style=numbers --color=always {} | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
+  --preview "(bat --theme='OneHalfDark' --style=numbers,changes --wrap never --color=always {} || cat {}) | rg --colors 'match:bg:yellow' --ignore-case --pretty --no-line-number --context 10 '$1' || rg --ignore-case --pretty --no-line-number --context 10 '$1' {}"
 }
 
 function sdt() {
@@ -130,11 +126,9 @@ function sdt() {
   local dir
   dir=$(find . -type d -not -path '*/\.git/*' 2>/dev/null | fzf\
   --header 'Search In Directory'\
-  --border\
   --height 80%\
   --extended\
   --ansi\
-  --reverse\
   --cycle\
   --header 'Search Directory'\
   --preview 'tree -d -C -L 2  {} | head -200 2>/dev/null'\
