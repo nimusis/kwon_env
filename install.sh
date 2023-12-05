@@ -52,3 +52,7 @@ else
 	echo "source ~/.kwon_env/zshrc" >> $ZSHRC_PATH
 	echo "" >> $ZSHRC_PATH
 fi
+
+if [ "$(command -v batcat)" ]; then
+	ln -s /usr/bin/batcat ~/.kwon_env/bin/bat
+fi

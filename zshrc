@@ -93,8 +93,7 @@ function fif() {
   if [ -z "$(command -v rg)" ]; then echo "rg(ripgrep) 이 설치되어 있지 않습니다."; return 1; fi
   local preview_cmd=bat
   if [ -z "$(command -v bat)" ]; then preview_cmd=cat; fi
-  local file
-  file=$(rg --files-with-matches --no-messages $2 "$1" | fzf\
+  rg --files-with-matches --no-messages $2 "$1" | fzf\
   --border\
   --height 80%\
   --extended\
@@ -106,7 +105,7 @@ function fif() {
   --bind 'PgUp:preview-up,PgDn:preview-down'\
   --bind '?:toggle-preview'\
   --bind 'Home:execute(vim -u $XDG_CONFIG_HOME/vimrc {} >/dev/tty </dev/tty)'\
-  --preview "$preview_cmd --theme='OneHalfDark' --style=numbers --color=always {} | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}") && vim "$file"
+  --preview "$preview_cmd --theme='OneHalfDark' --style=numbers --color=always {} | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
 }
 
 function sdt() {
