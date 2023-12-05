@@ -93,7 +93,7 @@ export FZF_DEFAULT_OPTS='
   --height 70%
   --reverse
   --border
-  --prompt="---● " --pointer="▶" --marker="✓"
+  --prompt="---● "
   --bind "ctrl-/:toggle-preview"
   --bind "PgUp:preview-page-up"
   --bind "PgDn:preview-page-down"
