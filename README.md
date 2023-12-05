@@ -107,17 +107,44 @@ rvm requirements run
 4. ruby 설치 및 기본버전 지정
 
 ```shell
-
 rvm install 2.7
-
 rvm use 2.7 --default
-
 ```
 
 5. RubyGems 를 이용한 tmuxinator 설치
 
 ```shell
 gem install tmuxinator
+```
+
+
+### 퍼지 파인드를 더 잘 활용하기 위한 유틸 설치
+
+* bat : cat 대용. 미리 설정된 syntax highlighting과 git diff 연동 https://github.com/sharkdp/bat
+* ripgrep : 디렉터리 안의 파일 내용을 정규식으로 찾아주는 플러그인. https://github.com/BurntSushi/ripgrep
+
+
+**Ubuntu**
+```shell
+sudo apt install bat
+ln -s /usr/bin/batcat ~/.kwon_env/bin/bat
+
+sudo apt install ripgrep
+```
+
+**centos**
+bat 설치
+
+```shell
+V=$(curl --silent "https://api.github.com/repos/sharkdp/bat/releases/latest" | grep -Eo '"tag_name": "v(.*)"' | sed -E 's/.*"([^"]+)".*/\1/') && curl -sOL "https://github.com/sharkdp/bat/releases/download/$V/bat-$V-x86_64-unknown-linux-musl.tar.gz" && tar xzvf "bat-$V-x86_64-unknown-linux-musl.tar.gz" -C . && sudo sh -c "cp ./bat-$V-x86_64-unknown-linux-musl/bat /usr/local/bin/bat" && rm bat-$V-x86_64-unknown-linux-musl.tar.gz && unset V
+```
+
+ripgrep 설치
+
+```shell
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
+sudo yum install ripgrep
 ```
 
 
@@ -248,25 +275,3 @@ windows:
 | 히스토리 찾기       | ctrl + r   |
 | 파일 내 문자열 찾기 | fif [text] |
 | 디렉토리 찾기       | sdt        |
-
-#### 퍼지 파인드를 더 잘 활용하기 위한 유틸 설치
-
-* bat : cat 대용. 미리 설정된 syntax highlighting과 git diff 연동 https://github.com/sharkdp/bat
-* ripgrep : 디렉터리 안의 파일 내용을 정규식으로 찾아주는 플러그인. https://github.com/BurntSushi/ripgrep
-
-**설치**
-
-**Ubuntu**
-```shell
-sudo apt install bat
-ln -s /usr/bin/batcat ~/.kwon_env/bin/bat
-
-sudo apt install ripgrep
-```
-
-**centos**
-```shell
-sudo yum install -y yum-utils
-sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
-sudo yum install ripgrep
-```

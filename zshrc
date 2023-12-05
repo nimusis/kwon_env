@@ -87,7 +87,28 @@ export TERM=xterm-256color
 export SHELL=/usr/bin/zsh
 
 
-###############################
+############################### FZF
+export FZF_DEFAULT_OPTS='
+  --color=bg+:5,fg+:255,info:6,pointer:255,prompt:5,marker:3
+  --height 70%
+  --reverse
+  --border
+  --prompt="---● " --pointer="▶" --marker="✓"
+  --bind "ctrl-/:toggle-preview"
+  --bind "PgUp:preview-page-up"
+  --bind "PgDn:preview-page-down"
+  --bind "ctrl-e:execute(vim -u $XDG_CONFIG_HOME/vimrc {} >/dev/tty </dev/tty)"
+'
+export FZF_PREVIEW_COMMAND='
+  ( [[ $(file --mime {}) =~ binary ]] && ! [[ $(file --mime {}) =~ directory ]] ) &&
+  echo {} is a binary file ||
+  (bat --theme="OneHalfDark" --style=numbers,changes --wrap never --color=always {} ||
+  cat {} ||
+  tree -C {})
+'
+export FZF_CTRL_T_OPTS="--preview-window right:60% --preview-window noborder --preview '($FZF_PREVIEW_COMMAND) 2> /dev/null'"
+
+
 function fif() {
   if [ ! "$#" -gt 0 ]; then echo "검색어를 입력해주세요."; return 1; fi
   if [ -z "$(command -v rg)" ]; then echo "rg(ripgrep) 이 설치되어 있지 않습니다."; return 1; fi
@@ -101,10 +122,6 @@ function fif() {
   --reverse\
   --cycle\
   --header 'Find in File'\
-  --bind 'f1:execute(less -f {}),ctrl-y:execute-silent(echo {} | pbcopy)+abort'\
-  --bind 'PgUp:preview-up,PgDn:preview-down'\
-  --bind '?:toggle-preview'\
-  --bind 'Home:execute(vim -u $XDG_CONFIG_HOME/vimrc {} >/dev/tty </dev/tty)'\
   --preview "$preview_cmd --theme='OneHalfDark' --style=numbers --color=always {} | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
 }
 
@@ -120,8 +137,6 @@ function sdt() {
   --reverse\
   --cycle\
   --header 'Search Directory'\
-  --bind 'PgUp:preview-up,PgDn:preview-down'\
-  --bind '?:toggle-preview'\
   --preview 'tree -d -C -L 2  {} | head -200 2>/dev/null'\
   --preview-window=right:50%) && cd "$dir"
 }
