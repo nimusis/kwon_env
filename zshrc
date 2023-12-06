@@ -2,8 +2,9 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 # Path to your oh-my-zsh installation.
 export XDG_CONFIG_HOME=$HOME/.kwon_env
-export ZSH="$XDG_CONFIG_HOME/oh-my-zsh"
-export PATH=$PATH:$HOME/.kwon_env/bin
+export FZF_BASE=$XDG_CONFIG_HOME/fzf
+export ZSH=$XDG_CONFIG_HOME/oh-my-zsh
+export PATH=$PATH:$XDG_CONFIG_HOME/bin
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
