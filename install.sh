@@ -57,12 +57,8 @@ curl -fLo $XDG_CONFIG_HOME/vimrc --create-dirs https://raw.githubusercontent.com
 curl -fLo $XDG_CONFIG_HOME/zshrc --create-dirs https://raw.githubusercontent.com/nimusis/kwon_env/master/zshrc
 curl -fLo $XDG_CONFIG_HOME/tmux/tmux.conf.local --create-dirs https://raw.githubusercontent.com/nimusis/kwon_env/master/tmux.conf.local
 
-print "== vim 플러그인 설치"
 # 정근님 vim 플러그인 설치
 curl -fLo $XDG_CONFIG_HOME/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-# vimrc 에 추가되어있는 설정 파일 다운로드
-vim -es -u $XDG_CONFIG_HOME/vimrc -i NONE -c "PlugInstall" -c "qa"
-
 
 print "== zshrc 설정 적용"
 # zsh 마지막 라인에 추가
@@ -114,3 +110,8 @@ else
   print "  * tmuxinator 설치되어있음. $V"
   unset V
 fi
+
+print "== vim 플러그인 설치"
+# vimrc 에 추가되어있는 설정 파일 다운로드
+vim -es -u $XDG_CONFIG_HOME/vimrc -i NONE -c "PlugInstall" -c "qa"
+print "== 끝"
