@@ -111,6 +111,15 @@ else
   unset V
 fi
 
+if [ -z "$(command -v gitui)" ]; then
+  print "  * gitui 설치"
+  V=$(curl --silent "https://api.github.com/repos/extrawurst/gitui/releases/latest" | grep -Eo '"tag_name": "(.*)"' | sed -E 's/.*"([^"]+)".*/\1/')
+  curl -sL "https://github.com/extrawurst/gitui/releases/download/$V/gitui-linux-x86_64.tar.gz" -o - |tar -xvzf - -C ~/.kwon_env/bin
+  unset V
+else
+  print "  * gitui 설치되어있음"
+fi
+
 print "== vim 플러그인 설치"
 # vimrc 에 추가되어있는 설정 파일 다운로드
 vim -es -u $XDG_CONFIG_HOME/vimrc -i NONE -c "PlugInstall" -c "qa"

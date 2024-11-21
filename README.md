@@ -122,6 +122,8 @@ gem install tmuxinator
 
 * bat : cat 대용. 미리 설정된 syntax highlighting과 git diff 연동 https://github.com/sharkdp/bat
 * ripgrep : 디렉터리 안의 파일 내용을 정규식으로 찾아주는 플러그인. https://github.com/BurntSushi/ripgrep
+* gitui : rust 로 작성된 터미널 UI git 클라이언트. https://github.com/extrawurst/gitui
+
 
 #### git 의 release 를 이용한 설치
 
@@ -134,6 +136,9 @@ V=$(curl --silent "https://api.github.com/repos/sharkdp/bat/releases/latest" | g
 
 #ripgrep 설치
 V=$(curl --silent "https://api.github.com/repos/BurntSushi/ripgrep/releases/latest" | grep -Eo '"tag_name": "(.*)"' | sed -E 's/.*"([^"]+)".*/\1/') && wget "https://github.com/BurntSushi/ripgrep/releases/download/$V/ripgrep-$V-x86_64-unknown-linux-musl.tar.gz" -O - |tar -xvzf - -C ~/.kwon_env/bin  --strip-components 1 ripgrep-$V-x86_64-unknown-linux-musl/rg && unset V
+
+#gitui 설치
+V=$(curl --silent "https://api.github.com/repos/extrawurst/gitui/releases/latest" | grep -Eo '"tag_name": "(.*)"' | sed -E 's/.*"([^"]+)".*/\1/') && wget "https://github.com/extrawurst/gitui/releases/download/$V/gitui-linux-x86_64.tar.gz" -O - |tar -xvzf - -C ~/.kwon_env/bin  && unset V
 ```
 
 **Ubuntu**
@@ -158,7 +163,6 @@ sudo yum install -y yum-utils
 sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
 sudo yum install ripgrep
 ```
-
 
 # kwon env 활용
 
