@@ -120,6 +120,15 @@ else
   print "  * gitui 설치되어있음"
 fi
 
+if [ -z "$(command -v lazygit)" ]; then
+  print "  * lazygit 설치"
+  DOWN_URL=$(curl --silent "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Eo '"browser_download_url": .*Linux_x86_64.*' | sed -E 's/.*"([^"]+)".*/\1/')
+  curl -sL "$DOWN_URL" -o - |tar -xvzf - -C ~/.kwon_env/bin lazygit
+  unset DOWN_URL
+else
+  print "  * lazygit 설치되어있음"
+fi
+
 print "== vim 플러그인 설치"
 # vimrc 에 추가되어있는 설정 파일 다운로드
 vim -es -u $XDG_CONFIG_HOME/vimrc -i NONE -c "PlugInstall" -c "qa"

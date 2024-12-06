@@ -122,7 +122,11 @@ gem install tmuxinator
 
 * bat : cat 대용. 미리 설정된 syntax highlighting과 git diff 연동 https://github.com/sharkdp/bat
 * ripgrep : 디렉터리 안의 파일 내용을 정규식으로 찾아주는 플러그인. https://github.com/BurntSushi/ripgrep
+
+
+### 터미널 git 유틸 설치
 * gitui : rust 로 작성된 터미널 UI git 클라이언트. https://github.com/extrawurst/gitui
+* lazygit : 터미널 UI git 클라이언트. https://github.com/jesseduffield/lazygit
 
 
 #### git 의 release 를 이용한 설치
