@@ -113,8 +113,8 @@ fi
 
 if [ -z "$(command -v gitui)" ]; then
   print "  * gitui 설치"
-  V=$(curl --silent "https://api.github.com/repos/extrawurst/gitui/releases/latest" | grep -Eo '"tag_name": "(.*)"' | sed -E 's/.*"([^"]+)".*/\1/')
-  curl -sL "https://github.com/extrawurst/gitui/releases/download/$V/gitui-linux-x86_64.tar.gz" -o - |tar -xvzf - -C ~/.kwon_env/bin
+  V=$(curl --silent "https://api.github.com/repos/gitui-org/gitui/releases/latest" | grep -Eo '"tag_name": "(.*)"' | sed -E 's/.*"([^"]+)".*/\1/')
+  curl -sL "https://github.com/gitui-org/gitui/releases/download/$V/gitui-linux-x86_64.tar.gz" -o - |tar -xvzf - -C ~/.kwon_env/bin
   unset V
 else
   print "  * gitui 설치되어있음"
@@ -122,7 +122,7 @@ fi
 
 if [ -z "$(command -v lazygit)" ]; then
   print "  * lazygit 설치"
-  DOWN_URL=$(curl --silent "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Eo '"browser_download_url": .*Linux_x86_64.*' | sed -E 's/.*"([^"]+)".*/\1/')
+  DOWN_URL=$(curl --silent "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Eo '"browser_download_url": .*linux_x86_64.*' | sed -E 's/.*"([^"]+)".*/\1/')
   curl -sL "$DOWN_URL" -o - |tar -xvzf - -C ~/.kwon_env/bin lazygit
   unset DOWN_URL
 else
