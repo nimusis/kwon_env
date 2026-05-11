@@ -49,13 +49,16 @@ fi
 print "== tmux 설정 정보 적용"
 # oh-my-tmux 설치
 curl -fLo $XDG_CONFIG_HOME/tmux/tmux.conf --create-dirs https://raw.githubusercontent.com/gpakosz/.tmux/master/.tmux.conf
-#curl -fLo $XDG_CONFIG_HOME/tmux/tmux.conf.local --create-dirs https://raw.githubusercontent.com/gpakosz/.tmux/master/.tmux.conf.local
+curl -fLo $XDG_CONFIG_HOME/tmux/tmux.conf.local --create-dirs https://raw.githubusercontent.com/gpakosz/.tmux/master/.tmux.conf.local
 
 ################## 내 설정파일 다운로드 ##################
 print "== kwon_env 설정 정보 적용"
 curl -fLo $XDG_CONFIG_HOME/vimrc --create-dirs https://raw.githubusercontent.com/nimusis/kwon_env/master/vimrc
 curl -fLo $XDG_CONFIG_HOME/zshrc --create-dirs https://raw.githubusercontent.com/nimusis/kwon_env/master/zshrc
-curl -fLo $XDG_CONFIG_HOME/tmux/tmux.conf.local --create-dirs https://raw.githubusercontent.com/nimusis/kwon_env/master/tmux.conf.local
+sed -i -E \
+  -e 's,^(tmux_conf_theme_(left|right)_separator[^=]*="[^"]*")$,#\1,' \
+  -e "s,^#(tmux_conf_theme_(left|right)_separator[^=]*='\\\\uE0B[^']*'.*)$,\1," \
+  $XDG_CONFIG_HOME/tmux/tmux.conf.local
 
 # 정근님 vim 플러그인 설치
 curl -fLo $XDG_CONFIG_HOME/vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
